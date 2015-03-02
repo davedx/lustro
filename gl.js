@@ -35,12 +35,13 @@ var GL = (function() {
 	};
 
 	return {
-		setMatrixUniforms: function(gl, shaderProgram, pMatrix, mvMatrix) {
+		setMatrixUniforms: function(gl, shaderProgram, pMatrix, mvMatrix, texture) {
 			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
 			gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+			gl.uniform1f(shaderProgram.uUseTexture, texture ? 1.0 : 0.0);
 		},
 
-		createBuffers: function(gl, width, height, options) {
+		createBuffers: function(gl, width, height, backgroundColor) {
 			var squareVertexPositionBuffer;
 			var squareVertexColorBuffer;
 			var squareVertexTextureCoordBuffer;
@@ -75,8 +76,8 @@ var GL = (function() {
 			gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
 			colors = [];
 			var color = [0.5, 0.5, 1.0, 1.0];
-			if(options.backgroundColor) {
-				color = options.backgroundColor;
+			if(backgroundColor) {
+				color = backgroundColor;
 			}
 			for (var i=0; i < 4; i++) {
 				colors = colors.concat(color);
@@ -113,11 +114,10 @@ var GL = (function() {
 			shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 			shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
 
-			// shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-			// gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+			shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+			gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
 
-			// shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
-			// gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+			shaderProgram.uUseTexture = gl.getUniformLocation(shaderProgram, "uUseTexture");
 
 			// shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
 			// shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -160,7 +160,6 @@ var GL = (function() {
 		},
 
 		drawBuffers: function(gl, pMatrix, mvMatrix, shaderProgram, buffers, texture) {
-			//positionBuffer, colorBuffer) {
 			var positionBuffer = buffers.position;
 			var colorBuffer = buffers.color;
 			var textureBuffer = buffers.texture;
@@ -175,10 +174,10 @@ var GL = (function() {
 			gl.bindTexture(gl.TEXTURE_2D, texture);
 			gl.uniform1i(shaderProgram.samplerUniform, 0);
 
-			// gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-			// gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-			// gl.enableClientState(gl.TEXTURE_COORD_ARRAY_EXT);
-			GL.setMatrixUniforms(gl, shaderProgram, pMatrix, mvMatrix);
+			gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+			gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+			GL.setMatrixUniforms(gl, shaderProgram, pMatrix, mvMatrix, texture);
 
 			gl.drawArrays(gl.TRIANGLE_STRIP, 0, positionBuffer.numItems);
 		}

@@ -33,11 +33,10 @@ GLContext.prototype.getShaders = function() {
 };
 
 var UI = (function() {
-	var root;
 	var renderNode = function(node, inheritedPosition, root) {
 		if(node.props) {
-			console.log("RENDER NODE: ", node.props.name, node.options.background);
-			//TODO: only on initialise. Subsequence renders should probably not re-create buffers
+			//console.log("RENDER NODE: ", node.props.name, node.options.background);
+			//TODO: only on initialise.
 			if(node.props.backgroundColor) {
 				node._backgroundColor = node.props.backgroundColor;
 			}
@@ -47,16 +46,14 @@ var UI = (function() {
 					console.log("Init texture...");
 					node._texture = GL.initTexture(root._context.get(), node._background, function() {
 						node._textureLoaded = true;
-						//FIXME: can't invoke draw here as we're god knows where in the render loop
-						//draw();
-						console.log("Texture loaded.");
+						//console.log("Texture loaded.");
 					});
 				}
 			}
 			if(!node._buffers) {
 				console.log("Creating buffers");
 				node._buffers = GL.createBuffers(root._context.get(),
-							node._width, node._height, node.options);
+							node._width, node._height, node._backgroundColor);
 			}
 
 			//console.log("Has props, let's draw it ", node.options.buffers);
@@ -87,12 +84,12 @@ var UI = (function() {
 				//console.info(node.props, " has no background drawing now! ", node.options);
 				draw();
 			} else if(node._texture && node._textureLoaded) {
-				console.log("Drawing textured node");
+				//console.log("Drawing textured node");
 				draw();
 			}
 		}
 		node.children.forEach(function(child) {
-			console.info("Rendering child: ", child.options.background, child.props.background);
+			//console.info("Rendering child: ", child.options.background, child.props.background);
 			renderNode(child, {top: top, left: left}, root);
 		});
 		node.def.render();
@@ -110,7 +107,7 @@ var UI = (function() {
 		new: function(component, props) {
 			var component = arguments[0];
 			var props = arguments[1];
-			var inst = new component(props);//new component(props);
+			var inst = new component(props);
 			inst.props = props;
 			inst._width = props.width;
 			inst._height = props.height;
@@ -123,7 +120,7 @@ var UI = (function() {
 		},
 		render: function(rootComponent, rootCanvas) {
 			var root = new rootComponent();
-			console.info("ROOT: ", root);
+			//console.info("ROOT: ", root);
 			root._context = new GLContext(rootCanvas);
 			root._width = rootCanvas.width;
 			root._height = rootCanvas.height;
