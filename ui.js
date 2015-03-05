@@ -90,37 +90,45 @@ var UI = (function() {
 			//console.info("Rendering child: ", child.options.background, child.props.background);
 			renderNode(child, {top: top, left: left}, root);
 		});
-		node.def.render();
+		node.render();
 	};
 	return {
+		/**
+		 Returns a factory method to create an instance of this component.
+		 */
 		component: function(def) {
 			return function(props) {
-				this.def = def;
-				this.props = props;
-				this.tm = mat4.create();
-				mat4.identity(this.tm);
-				mat4.translate(this.tm, [0, 0, -1.0]);
-				if(this.def.start) {
-					this.def.start();
+				var _this = Object.create(def);
+				_this.tm = mat4.create();
+				mat4.identity(_this.tm);
+				mat4.translate(_this.tm, [0, 0, -1.0]);
+				if(_this.start) {
+					_this.start();
 				}
-				if(this.def.components) {
-					this.def.components.forEach(function(component) {
+				if(_this.components) {
+					_this.components.forEach(function(component) {
+						_this[component.name] = component;
 						if(component.start) {
-							component.start.apply(this);
+							component.start.apply(_this);
 						}
-					}.bind(this));
+					}.bind(_this));
 				}
+				return _this;
 			}
 		},
 		new: function(component, props) {
+			//1. clone def
+			//2. set props
+			//3. init matrices
+			//4. call lifecycle method(s)
 			var component = arguments[0];
 			var props = arguments[1];
-			var inst = new component(props);
+			var inst = component(props);
 			inst.props = props;
 			inst._width = props.width;
 			inst._height = props.height;
-			inst.options = {};
 			inst.children = [];
+			//console.log("INST: ", inst);
 			for(var i=2; i<arguments.length; i++) {
 				inst.children.push(arguments[i]);
 			}
@@ -133,7 +141,7 @@ var UI = (function() {
 			root._width = rootCanvas.width;
 			root._height = rootCanvas.height;
 			// Initial render
-			var results = root.def.render();
+			var results = root.render();
 
 			GL.initDraw(root._context.get(),
 						root._context.getpMatrix(),

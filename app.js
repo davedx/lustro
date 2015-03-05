@@ -13,11 +13,10 @@ var Square = UI.component({
 	},
 
 	handleKeyPress: function(e) {
-		console.info("handleKeyPress: ", this);
-		if(e.keyCode === VK_KEY_LEFT) {
-			this.animate(this.animationMap.moveLeft);
-		} else if(e.keyCode === VK_KEY_RIGHT) {
-			this.animate(this.animationMap.moveRight);
+		if(e.keyCode === 37) {
+			this.Animator.animate(this.animationMap.moveLeft);
+		} else if(e.keyCode === 39) {
+			this.Animator.animate(this.animationMap.moveRight);
 		}
 	},
 
