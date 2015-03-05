@@ -1,4 +1,26 @@
 var Square = UI.component({
+	components: [Animator, KeyInput],
+
+	animationMap: {
+		moveLeft: {
+			transform: "translate3d(-30, 0, 0)",
+			transition: "200ms linear"
+		},
+		moveRight: {
+			transform: "translate3d(30, 0, 0)",
+			transition: "200ms linear"
+		}
+	},
+
+	handleKeyPress: function(e) {
+		console.info("handleKeyPress: ", this);
+		if(e.keyCode === VK_KEY_LEFT) {
+			this.animate(this.animationMap.moveLeft);
+		} else if(e.keyCode === VK_KEY_RIGHT) {
+			this.animate(this.animationMap.moveRight);
+		}
+	},
+
 	render: function() {
 		return {};
 	}

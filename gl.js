@@ -53,7 +53,7 @@ var GL = (function() {
 				width, 	height, 0.0,
 				0.0,  	height, 0.0,
 				width, 	0.0,  	0.0,
-				0.0, 		0.0,  	0.0
+				0.0, 	0.0,  	0.0
 			];
 
 			//console.info("Verts: ", vertices);
@@ -119,8 +119,6 @@ var GL = (function() {
 
 			shaderProgram.uUseTexture = gl.getUniformLocation(shaderProgram, "uUseTexture");
 
-			// shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-			// shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 			return shaderProgram;
 		},
 
@@ -130,7 +128,6 @@ var GL = (function() {
 				texture.image.onload = function() {
 					console.log("Texture loaded: ", texture);
 					gl.bindTexture(gl.TEXTURE_2D, texture);
-					//gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 					gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
 					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
@@ -155,8 +152,6 @@ var GL = (function() {
 			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 			mat4.ortho(0, gl.viewportWidth, 0, gl.viewportHeight, 0.1, 100.0, pMatrix);
-			// mat4.identity(mvMatrix);
-			// mat4.translate(mvMatrix, [0.0, 0.0, -1.0]);
 		},
 
 		drawBuffers: function(gl, pMatrix, mvMatrix, shaderProgram, buffers, texture) {

@@ -6,14 +6,12 @@ var GLContext = function(canvas) {
 		this.gl = canvas.getContext("experimental-webgl");
 		this.gl.viewportWidth = canvas.width;
 		this.gl.viewportHeight = canvas.height;
-		//this.shaders = GL.createShaders(this.gl, "shader-fs", "shader-vs");
 		this.shaders = GL.createShaders(this.gl, "shader-fs-tex", "shader-vs-tex");
 		this.mvMatrix = mat4.create();
 		this.pMatrix = mat4.create();
 	} catch (e) {
 		console.error(e);
 	}
-//	console.log("Context: ", this);
 };
 
 GLContext.prototype.get = function() {
@@ -102,6 +100,16 @@ var UI = (function() {
 				this.tm = mat4.create();
 				mat4.identity(this.tm);
 				mat4.translate(this.tm, [0, 0, -1.0]);
+				if(this.def.start) {
+					this.def.start();
+				}
+				if(this.def.components) {
+					this.def.components.forEach(function(component) {
+						if(component.start) {
+							component.start.apply(this);
+						}
+					}.bind(this));
+				}
 			}
 		},
 		new: function(component, props) {

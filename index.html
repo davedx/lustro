@@ -30,16 +30,16 @@
 	varying vec2 vTextureCoord;
 
 	void main(void) {
-	    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-	    // It may actually be faster to just assign both of these anyway
-	    vTextureCoord = aTextureCoord;
-	    vColor = aVertexColor;
+		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+		vTextureCoord = aTextureCoord;
+		vColor = aVertexColor;
 	}
 </script>
 <body>
 	<canvas id="app" width="1000" height="700">
 	</canvas>
 </body>
+<script src="components.js"></script>
 <script src="ui.js"></script>
 <script src="gl.js"></script>
 <script src="app.js"></script>
