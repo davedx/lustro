@@ -1,8 +1,21 @@
 var Animator = {
 	name: "Animator",
 
-	animate: function() {
-		console.info("Animator.animate: ", this);
+	start: function() {
+//		console.log("Initialising animator transforms");
+		this.destTransform = vec3.create();
+	},
+
+	animate: function(params) {
+//		console.info("Animator.animate: ", params.transform);
+		var newTransform = vec3.create();
+		vec3.set(params.transform, newTransform);
+		vec3.add(newTransform, this.destTransform, this.destTransform);
+		console.log("Dest transform: ", this.destTransform);
+	},
+
+	update: function(dt) {
+		//console.info("Update: ", dt);
 	}
 };
 
@@ -11,8 +24,8 @@ var KeyInput = {
 
 	start: function() {
 		document.addEventListener('keydown', function(event) {
-			if(this.handleKeyPress) {
-				this.handleKeyPress(event);
+			if(this.root.handleKeyPress) {
+				this.root.handleKeyPress(event);
 			}
 		}.bind(this));
 	}

@@ -3,11 +3,11 @@ var Square = UI.component({
 
 	animationMap: {
 		moveLeft: {
-			transform: "translate3d(-30, 0, 0)",
+			transform: [-30, 0, 0],
 			transition: "200ms linear"
 		},
 		moveRight: {
-			transform: "translate3d(30, 0, 0)",
+			transform: [30, 0, 0],
 			transition: "200ms linear"
 		}
 	},

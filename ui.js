@@ -31,7 +31,19 @@ GLContext.prototype.getShaders = function() {
 };
 
 var UI = (function() {
-	var renderNode = function(node, inheritedPosition, root) {
+	var updateNode = function(node, dt) {
+		if(node.update) {
+			node.update();
+		}
+		node.components.forEach(function(component) {
+			if(node[component.name].update) {
+				node[component.name].update(dt);
+			}
+		});
+	};
+
+	var lastTime = Date.now();
+	var renderNode = function(node, inheritedPosition, root, dt) {
 		if(node.props) {
 			//console.log("RENDER NODE: ", node.props.name, node.options.background);
 			//TODO: only on initialise.
@@ -78,6 +90,9 @@ var UI = (function() {
 							node._buffers,
 							node._texture);
 			};
+			// update node if necessary
+			updateNode(node, dt);
+
 			if(!node._texture) {
 				//console.info(node.props, " has no background drawing now! ", node.options);
 				draw();
@@ -88,7 +103,7 @@ var UI = (function() {
 		}
 		node.children.forEach(function(child) {
 			//console.info("Rendering child: ", child.options.background, child.props.background);
-			renderNode(child, {top: top, left: left}, root);
+			renderNode(child, {top: top, left: left}, root, dt);
 		});
 		node.render();
 	};
@@ -107,9 +122,10 @@ var UI = (function() {
 				}
 				if(_this.components) {
 					_this.components.forEach(function(component) {
-						_this[component.name] = component;
-						if(component.start) {
-							component.start.apply(_this);
+						_this[component.name] = Object.create(component);
+						_this[component.name].root = _this;
+						if(_this[component.name].start) {
+							_this[component.name].start();
 						}
 					}.bind(_this));
 				}
@@ -141,14 +157,18 @@ var UI = (function() {
 			root._width = rootCanvas.width;
 			root._height = rootCanvas.height;
 			// Initial render
-			var results = root.render();
+			var nodes = root.render();
 
 			GL.initDraw(root._context.get(),
 						root._context.getpMatrix(),
 						root._context.getMvMatrix());
+
+			//TODO: replace with requestAnimFrame
 			setInterval(function() {
+				var dt = Date.now() - lastTime;
+				lastTime = Date.now();
 				GL.clear(root._context.get());
-				renderNode(results, undefined, root);
+				renderNode(nodes, undefined, root, dt);
 			}, 1500);
 		}
 	}
