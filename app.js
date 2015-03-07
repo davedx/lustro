@@ -3,12 +3,12 @@ var Square = UI.component({
 
 	animationMap: {
 		moveLeft: {
-			transform: [-30, 0, 0],
+			transform: [-3, 0, 0],
 			time: 200,
 			easing: "linear"
 		},
 		moveRight: {
-			transform: [30, 0, 0],
+			transform: [3, 0, 0],
 			time: 200,
 			easing: "linear"
 		}

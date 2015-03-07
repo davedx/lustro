@@ -169,7 +169,7 @@ var UI = (function() {
 				lastTime = Date.now();
 				GL.clear(root._context.get());
 				renderNode(nodes, undefined, root, dt);
-			}, 1500);
+			}, 100);
 		}
 	}
 })();
