@@ -1,0 +1,28 @@
+{
+  "name": "lustro",
+  "version": "0.0.1",
+  "description": "A reactive, declarative, immediate mode WebGL UI system",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davedx/lustro.git"
+  },
+  "keywords": [
+    "reactive",
+    "declarative",
+    "webgl",
+    "ui"
+  ],
+  "author": "Dave Clayton <davedx@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davedx/lustro/issues"
+  },
+  "homepage": "https://github.com/davedx/lustro",
+  "dependencies": {
+    "gl-matrix": "^2.1.0"
+  }
+}

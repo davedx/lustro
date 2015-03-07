@@ -81,7 +81,7 @@ var UI = (function() {
 			//console.log("T: ",[left, root._height-(top+node._height), -1.0]);
 
 			mat4.identity(node.tm);
-			mat4.translate(node.tm, [left, root._height-(top+node._height), -1.0]);
+			mat4.translate(node.tm, node.tm, vec3.fromValues(left, root._height-(top+node._height), -1.0));
 			var draw = function() {
 				GL.drawBuffers(root._context.get(),
 							root._context.getpMatrix(),
@@ -115,8 +115,8 @@ var UI = (function() {
 			return function(props) {
 				var _this = Object.create(def);
 				_this.tm = mat4.create();
-				mat4.identity(_this.tm);
-				mat4.translate(_this.tm, [0, 0, -1.0]);
+				mat4.translate(_this.tm, _this.tm, vec3.fromValues(0, 0, -1.0));
+				//console.info("this.tm = ", _this.tm);
 				if(_this.start) {
 					_this.start();
 				}

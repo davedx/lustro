@@ -151,7 +151,7 @@ var GL = (function() {
 			gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
 			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-			mat4.ortho(0, gl.viewportWidth, 0, gl.viewportHeight, 0.1, 100.0, pMatrix);
+			mat4.ortho(pMatrix, 0, gl.viewportWidth, 0, gl.viewportHeight, 0.1, 100.0);
 		},
 
 		drawBuffers: function(gl, pMatrix, mvMatrix, shaderProgram, buffers, texture) {
