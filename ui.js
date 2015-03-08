@@ -82,6 +82,7 @@ var UI = (function() {
 
 			mat4.identity(node.tm);
 			mat4.translate(node.tm, node.tm, vec3.fromValues(left, root._height-(top+node._height), -1.0));
+			mat4.translate(node.tm, node.tm, node.localPosition);
 			var draw = function() {
 				GL.drawBuffers(root._context.get(),
 							root._context.getpMatrix(),
@@ -115,7 +116,8 @@ var UI = (function() {
 			return function(props) {
 				var _this = Object.create(def);
 				_this.tm = mat4.create();
-				mat4.translate(_this.tm, _this.tm, vec3.fromValues(0, 0, -1.0));
+				_this.localPosition = vec3.fromValues(0, 0, -1.0);
+				//mat4.translate(_this.lt, _this.lt, vec3.fromValues(0, 0, -1.0));
 				//console.info("this.tm = ", _this.tm);
 				if(_this.start) {
 					_this.start();
@@ -165,11 +167,11 @@ var UI = (function() {
 
 			//TODO: replace with requestAnimFrame
 			setInterval(function() {
-				var dt = Date.now() - lastTime;
+				var dt = (Date.now() - lastTime)/1000.0;
 				lastTime = Date.now();
 				GL.clear(root._context.get());
 				renderNode(nodes, undefined, root, dt);
-			}, 100);
+			}, 10);
 		}
 	}
 })();
