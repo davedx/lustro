@@ -1,5 +1,13 @@
 # Lustro
-A reactive, declarative, immediate mode WebGL UI system
+A reactive, declarative, immediate mode WebGL UI framework
+
+## Features
+
+* Declare your user interface as a hierarchy of components, the same way you would with React
+* (Not yet implemented) Your UI will react to changes in data automatically
+* Use an extensible component system to compose behaviour (think Unity3D gameobjects and components)
+* Declare animation behaviour in animationMaps (also somewhat inspired by Unity3D)
+* (Not yet implemented) Take full advantage of 3D engine optimizations, like texture atlassing and geometry batching
 
 ## Principles
 
