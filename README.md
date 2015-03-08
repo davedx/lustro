@@ -9,6 +9,8 @@ A reactive, declarative, immediate mode WebGL UI framework
 * Declare animation behaviour in animationMaps (also somewhat inspired by Unity3D)
 * (Not yet implemented) Take full advantage of 3D engine optimizations, like texture atlassing and geometry batching
 
+Note the common theme here: **Declare**!
+
 ## Principles
 
 * A UI should be primarily declarative, with lifecycle methods to facilitate imperative logic and react to changes in the data model over time. Inspired by Facebook's React.
