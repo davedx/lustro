@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<script type="text/javascript" src="../node_modules/gl-matrix/dist/gl-matrix-min.js"></script>
+<script id="shader-fs-tex" type="x-shader/x-fragment">
+	precision mediump float;
+
+	varying vec2 vTextureCoord;
+	varying vec4 vColor;
+
+	uniform sampler2D uSampler;
+	uniform float uUseTexture;
+
+	void main(void) {
+		vec4 texColor = texture2D(uSampler, vTextureCoord) * uUseTexture;
+		vec4 vertColor = vColor * (1.0 - uUseTexture); 
+		gl_FragColor = texColor + vertColor;
+	}
+</script>
+
+<script id="shader-vs-tex" type="x-shader/x-vertex">
+	attribute vec3 aVertexPosition;
+	attribute vec4 aVertexColor;
+	attribute vec2 aTextureCoord;
+
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+
+	varying vec4 vColor;
+	varying vec2 vTextureCoord;
+
+	void main(void) {
+		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+		vTextureCoord = aTextureCoord;
+		vColor = aVertexColor;
+	}
+</script>
+<body>
+	<div id="fps"></div>
+	<canvas id="app" width="1000" height="700">
+	</canvas>
+</body>
+<script src="../lib/components.js"></script>
+<script src="../lib/ui.js"></script>
+<script src="../lib/gl.js"></script>
+<script src="../lib/texture.js"></script>
+<script src="perf1.js"></script>
+<script type="text/javascript">
+	var fps = document.getElementById("fps");
+
+	setInterval(function() {
+		fps.innerHTML = ""+window.framesPerSecond+" fps";
+	}, 1000);
+</script>
+</html>
