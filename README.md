@@ -1,6 +1,8 @@
 # Lustro
 A reactive, declarative, immediate mode WebGL UI framework
 
+To run examples, npm install then npm start to spin up a server on 8080. Then browse to http://localhost:8080/examples/
+
 ## Features
 
 * Declare your user interface as a hierarchy of components, the same way you would with React
