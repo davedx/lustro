@@ -17,7 +17,7 @@
 	var fps = document.getElementById("fps");
 
 	setInterval(function() {
-		fps.innerHTML = ""+window.framesPerSecond+" fps";
+		fps.innerHTML = ""+window.framesPerSecond+" fps, "+window.drawCalls+" draw calls, "+window.textureBinds+" binds";
 	}, 1000);
 </script>
 </html>
