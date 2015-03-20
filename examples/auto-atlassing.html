@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<script type="text/javascript" src="../node_modules/gl-matrix/dist/gl-matrix-min.js"></script>
+<body>
+	<div id="fps"></div>
+	<canvas id="app" width="1000" height="700">
+	</canvas>
+</body>
+<script src="../lib/components.js"></script>
+<script src="../lib/ui.js"></script>
+<script src="../lib/gl.js"></script>
+<script src="../lib/texture.js"></script>
+<script src="../lib/shader.js"></script>
+<script src="auto-atlassing.js"></script>
+<script type="text/javascript">
+	var fps = document.getElementById("fps");
+
+	setInterval(function() {
+		fps.innerHTML = ""+window.framesPerSecond+" fps, "+window.drawCalls+" draw calls, "+window.textureBinds+" binds";
+	}, 1000);
+</script>
+</html>
